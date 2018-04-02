@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start:dev": "webpack-dev-server --config=config/webpack.dev.js"
+    "start:dev": "webpack-dev-server --config=config/webpack.dev.js",
+    "build:dev": "webpack --config=config/webpack.dev.js"
   },
   "keywords": [],
   "author": "Elton Nascimento <eltongarbin@gmail.com> (https://github.com/eltongarbin)",
@@ -16,6 +17,9 @@
   },
   "devDependencies": {
     "css-loader": "^0.28.11",
+    "extract-loader": "^2.0.1",
+    "file-loader": "^1.1.11",
+    "html-loader": "^0.5.5",
     "style-loader": "^0.20.3"
   }
 }
