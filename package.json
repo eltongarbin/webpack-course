@@ -1,0 +1,17 @@
+{
+  "name": "webpack-course",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start:dev": "webpack-dev-server --config=config/webpack.dev.js"
+  },
+  "keywords": [],
+  "author": "Elton Nascimento <eltongarbin@gmail.com> (https://github.com/eltongarbin)",
+  "license": "ISC",
+  "dependencies": {
+    "webpack": "^4.4.1",
+    "webpack-cli": "^2.0.13",
+    "webpack-dev-server": "^3.1.1"
+  }
+}
