@@ -6,6 +6,7 @@ const config = require('../../config/webpack.dev');
 
 const server = express();
 const compiler = webpack(config);
+require('webpack-mild-compile')(compiler);
 
 const webpackDevMiddleware = require('webpack-dev-middleware')(
   compiler,
