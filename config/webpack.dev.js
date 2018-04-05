@@ -25,21 +25,32 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        use: [
-          {
-            loader: 'babel-loader'
-          }
-        ]
+        use: [{ loader: 'babel-loader' }]
       },
       {
         test: /\.css$/,
         use: [
-          {
-            loader: 'style-loader'
-          },
-          {
-            loader: 'css-loader'
-          }
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader' }
+        ]
+      },
+      {
+        test: /\.sass$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader' },
+          { loader: 'sass-loader' }
+        ]
+      },
+      {
+        test: /\.less$/,
+        use: [
+          { loader: 'style-loader' },
+          { loader: 'css-loader' },
+          { loader: 'postcss-loader' },
+          { loader: 'less-loader' }
         ]
       },
       {
@@ -55,19 +66,11 @@ module.exports = {
       },
       {
         test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader'
-          }
-        ]
+        use: [{ loader: 'html-loader' }]
       },
       {
         test: /\.pug$/,
-        use: [
-          {
-            loader: 'pug-loader'
-          }
-        ]
+        use: [{ loader: 'pug-loader' }]
       },
       {
         test: /\.hbs$/,
