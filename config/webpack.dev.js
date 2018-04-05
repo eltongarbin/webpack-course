@@ -15,8 +15,7 @@ module.exports = {
   devServer: {
     contentBase: 'dist',
     overlay: true,
-    hot: true,
-    status: {
+    stats: {
       colors: true
     }
   },
@@ -24,13 +23,13 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.js/,
+        test: /\.js$/,
+        exclude: /node_modules/,
         use: [
           {
             loader: 'babel-loader'
           }
-        ],
-        exclude: /node_modules/
+        ]
       },
       {
         test: /\.css$/,
@@ -44,18 +43,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.html$/,
-        use: [
-          {
-            loader: 'html-loader',
-            options: {
-              attrs: ['img:src']
-            }
-          }
-        ]
-      },
-      {
-        test: /\.(jpg|gif|png)$/,
+        test: /\.jpg$/,
         use: [
           {
             loader: 'file-loader',
@@ -64,12 +52,19 @@ module.exports = {
             }
           }
         ]
+      },
+      {
+        test: /\.html$/,
+        use: [
+          {
+            loader: 'html-loader'
+          }
+        ]
       }
     ]
   },
   plugins: [
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
     new HTMLWebpackPlugin({
       template: './src/index.html'
     })
