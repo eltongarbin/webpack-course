@@ -75,6 +75,10 @@ module.exports = {
         use: [{ loader: 'html-loader' }]
       },
       {
+        test: /\.ejs$/,
+        use: [{ loader: 'ejs-loader' }]
+      },
+      {
         test: /\.pug$/,
         use: [{ loader: 'pug-loader' }]
       },
@@ -92,10 +96,10 @@ module.exports = {
     ]
   },
   plugins: [
-    new webpack.HotModuleReplacementPlugin(),
+    // new webpack.HotModuleReplacementPlugin(),
     new webpack.NamedModulesPlugin(),
     new HTMLWebpackPlugin({
-      template: './src/index.hbs',
+      template: './src/index.ejs',
       title: "Link's Journal"
     })
   ]
