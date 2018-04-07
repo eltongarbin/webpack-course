@@ -6,12 +6,15 @@
   "scripts": {
     "start": "webpack-dev-server --config=config/webpack.dev.js",
     "build:dev": "webpack --config=config/webpack.dev.js",
-    "build": "set NODE_ENV=production && webpack --config=config/webpack.prod.js",
-    "dev": "nodemon --inspect --watch config --watch src/server src/server/main.js",
+    "build":
+      "webpack --config=config/webpack.prod.js --env.NODE_ENV=production",
+    "dev":
+      "nodemon --inspect --watch config --watch src/server src/server/main.js",
     "prod": "set NODE_ENV=production && node src/server/main.js"
   },
   "keywords": [],
-  "author": "Elton Nascimento <eltongarbin@gmail.com> (https://github.com/eltongarbin)",
+  "author":
+    "Elton Nascimento <eltongarbin@gmail.com> (https://github.com/eltongarbin)",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^5.0.1",
