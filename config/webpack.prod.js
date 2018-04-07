@@ -11,8 +11,7 @@ const BrotliPlugin = require('brotli-webpack-plugin');
 module.exports = (env) => {
   return {
     entry: {
-      main: ['./src/main.js'],
-      ts: ['./src/index.ts']
+      main: ['./src/main.js']
     },
     mode: 'production',
     output: {
@@ -33,11 +32,6 @@ module.exports = (env) => {
           test: /\.js$/,
           exclude: /node_modules/,
           use: [{ loader: 'babel-loader' }]
-        },
-        {
-          test: /\.ts$/,
-          exclude: /node_modules/,
-          use: [{ loader: 'awesome-typescript-loader' }]
         },
         {
           test: /\.css$/,

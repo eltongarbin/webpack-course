@@ -10,8 +10,7 @@ module.exports = {
       'babel-register',
       'webpack-hot-middleware/client?reload=true',
       './src/main.js'
-    ],
-    ts: ['./src/index.ts']
+    ]
   },
   mode: 'development',
   output: {
@@ -33,11 +32,6 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         use: [{ loader: 'babel-loader' }]
-      },
-      {
-        test: /\.ts$/,
-        exclude: /node_modules/,
-        use: [{ loader: 'awesome-typescript-loader' }]
       },
       {
         test: /\.css$/,
