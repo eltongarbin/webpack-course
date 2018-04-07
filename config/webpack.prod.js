@@ -19,11 +19,16 @@ module.exports = (env) => {
       path: path.resolve(__dirname, '../dist'),
       publicPath: '/'
     },
-    devServer: {
-      contentBase: 'dist',
-      overlay: true,
-      stats: {
-        colors: true
+    optimization: {
+      splitChunks: {
+        chunks: 'all',
+        cacheGroups: {
+          vendor: {
+            name: 'vendor',
+            chunks: 'initial',
+            minChunks: 2
+          }
+        }
       }
     },
     module: {

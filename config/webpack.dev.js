@@ -1,6 +1,8 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
+const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+  .BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
@@ -23,6 +25,18 @@ module.exports = {
     overlay: true,
     stats: {
       colors: true
+    }
+  },
+  optimization: {
+    splitChunks: {
+      chunks: 'all',
+      cacheGroups: {
+        vendor: {
+          name: 'vendor',
+          chunks: 'initial',
+          minChunks: 2
+        }
+      }
     }
   },
   devtool: 'source-map',
@@ -105,6 +119,9 @@ module.exports = {
     new HTMLWebpackPlugin({
       template: './src/index.ejs',
       title: "Link's Journal"
+    }),
+    new BundleAnalyzerPlugin({
+      generateStatsFile: true
     })
   ]
 };
