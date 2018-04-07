@@ -6,15 +6,12 @@
   "scripts": {
     "start": "webpack-dev-server --config=config/webpack.dev.js",
     "build:dev": "webpack --config=config/webpack.dev.js",
-    "build":
-      "webpack --config=config/webpack.prod.js --env.NODE_ENV=production",
-    "dev":
-      "nodemon --inspect --watch config --watch src/server src/server/main.js",
+    "build": "webpack --config=config/webpack.prod.js --env.NODE_ENV=production",
+    "dev": "nodemon --inspect --watch config --watch src/server src/server/main.js",
     "prod": "set NODE_ENV=production && node src/server/main.js"
   },
   "keywords": [],
-  "author":
-    "Elton Nascimento <eltongarbin@gmail.com> (https://github.com/eltongarbin)",
+  "author": "Elton Nascimento <eltongarbin@gmail.com> (https://github.com/eltongarbin)",
   "license": "ISC",
   "dependencies": {
     "dotenv": "^5.0.1",
@@ -28,6 +25,8 @@
     "babel-cli": "^6.26.0",
     "babel-core": "^6.26.0",
     "babel-loader": "^7.1.4",
+    "babel-minify": "^0.3.0",
+    "babel-minify-webpack-plugin": "^0.3.1",
     "babel-plugin-async-to-promises": "^1.0.5",
     "babel-plugin-transform-es2015-arrow-functions": "^6.22.0",
     "babel-plugin-transform-runtime": "^6.23.0",
@@ -56,6 +55,7 @@
     "sass-loader": "^6.0.7",
     "style-loader": "^0.20.3",
     "typescript": "^2.8.1",
+    "uglifyjs-webpack-plugin": "^1.2.4",
     "webpack": "^4.4.1",
     "webpack-cli": "^2.0.13",
     "webpack-dev-middleware": "^3.1.0",
