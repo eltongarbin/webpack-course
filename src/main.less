@@ -1,8 +1,12 @@
-@grey: red;
+@gray: gray;
 
 body {
   margin: 0;
-  background-color: @grey;
+  background-color: @gray;
+}
+
+* {
+  box-sizing: border-box;
 }
 
 .profile {
@@ -13,20 +17,20 @@ body {
   height: 100vh;
   flex-flow: column;
 
-  img {
+  > img {
     border-radius: 100%;
     border: 5px;
     width: 300px;
     box-shadow: 0 0 20px black;
   }
-}
 
-h1 {
-  font-size: 5em;
-  font-family: sans-serif;
-  color: white;
-  text-shadow: 0 0 20px black;
-  text-align: center;
+  > h1 {
+    font-size: 5em;
+    font-family: sans-serif;
+    color: white;
+    text-shadow: 0 0 20px black;
+    text-align: center;
+  }
 }
 
 a {

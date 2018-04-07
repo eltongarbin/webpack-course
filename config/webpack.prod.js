@@ -122,6 +122,10 @@ module.exports = (env) => {
               }
             }
           ]
+        },
+        {
+          test: /\.md$/,
+          use: [{ loader: 'markdown-with-front-matter-loader' }]
         }
       ]
     },
