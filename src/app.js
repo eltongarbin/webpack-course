@@ -3,12 +3,11 @@ import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
 
 import AppRoot from './components/AppRoot';
-import Data from '../data/bio';
 
 function render(Component) {
   ReactDOM.render(
     <AppContainer>
-      <Component heading={Data.heading} bioText={Data.bioText} />
+      <Component />
     </AppContainer>,
     document.getElementById('react-root')
   );

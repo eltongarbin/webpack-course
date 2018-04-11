@@ -1,30 +1,19 @@
 const path = require('path');
 const webpack = require('webpack');
 const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
-const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
-const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
-const CompressionPlugin = require('compression-webpack-plugin');
-const BrotliPlugin = require('brotli-webpack-plugin');
+var nodeExternals = require('webpack-node-externals');
 
 module.exports = (env) => {
   return {
+    target: 'node',
+    externals: nodeExternals(),
     entry: {
-      vendor: ['react', 'lodash'],
-      main: ['./src/main.js']
+      server: ['./src/server/main.js']
     },
-    mode: 'production',
+    mode: 'development',
     output: {
       filename: '[name]-bundle.js',
-      path: path.resolve(__dirname, '../dist'),
-      publicPath: '/'
-    },
-    devServer: {
-      contentBase: 'dist',
-      overlay: true,
-      stats: {
-        colors: true
-      }
+      path: path.resolve(__dirname, '../build')
     },
     module: {
       rules: [
@@ -73,9 +62,10 @@ module.exports = (env) => {
           test: /\.jpg$/,
           use: [
             {
-              loader: 'url-loader',
+              loader: 'file-loader',
               options: {
-                name: 'images/[name].[ext]'
+                name: 'images/[name].[ext]',
+                emitFile: false
               }
             }
           ]
@@ -92,28 +82,11 @@ module.exports = (env) => {
     },
     plugins: [
       new ExtractTextPlugin('[name].css'),
-      new OptimizeCssAssetsPlugin({
-        assetNameRegExp: /\.css$/g,
-        cssProcessor: require('cssnano'),
-        cssProcessorOptions: { discardComments: { removeAll: true } },
-        canPrint: true
-      }),
       new webpack.DefinePlugin({
         'process.env': {
-          NODE_ENV: JSON.stringify(env.NODE_ENV),
-          WEBPACK: true
+          NODE_ENV: JSON.stringify(env.NODE_ENV)
         }
-      }),
-      // new webpack.NamedModulesPlugin(),
-      // new HTMLWebpackPlugin({
-      //   template: './src/index.ejs',
-      //   title: "Link's Journal"
-      // }),
-      new UglifyJSPlugin(),
-      new CompressionPlugin({
-        algorithm: 'gzip'
-      }),
-      new BrotliPlugin()
+      })
     ]
   };
 };

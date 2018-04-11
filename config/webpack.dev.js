@@ -1,15 +1,15 @@
 const path = require('path');
 const webpack = require('webpack');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
-const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
-  .BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
+//   .BundleAnalyzerPlugin;
 
 module.exports = {
   entry: {
+    vendor: ['react', 'react-dom'],
     main: [
       'react-hot-loader/patch',
       'babel-runtime/regenerator',
-      'babel-register',
       'webpack-hot-middleware/client?reload=true',
       './src/main.js'
     ]
@@ -25,18 +25,6 @@ module.exports = {
     overlay: true,
     stats: {
       colors: true
-    }
-  },
-  optimization: {
-    splitChunks: {
-      chunks: 'all',
-      cacheGroups: {
-        vendor: {
-          name: 'vendor',
-          chunks: 'initial',
-          minChunks: 2
-        }
-      }
     }
   },
   devtool: 'source-map',
@@ -56,15 +44,6 @@ module.exports = {
         ]
       },
       {
-        test: /\.sass$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
-          { loader: 'sass-loader' }
-        ]
-      },
-      {
         test: /\.less$/,
         use: [
           { loader: 'style-loader' },
@@ -79,33 +58,32 @@ module.exports = {
           {
             loader: 'file-loader',
             options: {
-              name: 'images/[name]-[hash:8].[ext]'
+              name: 'images/[name].[ext]'
             }
           }
         ]
       },
       {
         test: /\.html$/,
-        use: [{ loader: 'html-loader' }]
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              name: '[name].[ext]'
+            }
+          },
+          { loader: 'extract-loader' },
+          {
+            loader: 'html-loader',
+            options: {
+              attrs: ['img:src']
+            }
+          }
+        ]
       },
       {
         test: /\.ejs$/,
         use: [{ loader: 'ejs-loader' }]
-      },
-      {
-        test: /\.pug$/,
-        use: [{ loader: 'pug-loader' }]
-      },
-      {
-        test: /\.hbs$/,
-        use: [
-          {
-            loader: 'handlebars-loader',
-            query: {
-              inlineRequires: '/images/'
-            }
-          }
-        ]
       },
       {
         test: /\.md$/,
@@ -114,14 +92,20 @@ module.exports = {
     ]
   },
   plugins: [
+    new webpack.DefinePlugin({
+      'process.env': {
+        NODE_ENV: JSON.stringify('development'),
+        WEBPACK: true
+      }
+    }),
     new webpack.HotModuleReplacementPlugin(),
-    new webpack.NamedModulesPlugin(),
     new HTMLWebpackPlugin({
       template: './src/index.ejs',
+      inject: true,
       title: "Link's Journal"
-    }),
-    new BundleAnalyzerPlugin({
-      generateStatsFile: true
     })
+    // new BundleAnalyzerPlugin({
+    //   generateStatsFile: true
+    // })
   ]
 };

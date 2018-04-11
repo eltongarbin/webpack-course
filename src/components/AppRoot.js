@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
-import MarkdownData from '../../data/post.md';
+const MarkdownData = require('../../data/post.md');
+const imagePath = require('../images/link.jpg');
 
 class Counter extends Component {
   constructor(props) {
@@ -9,7 +10,7 @@ class Counter extends Component {
   render() {
     return (
       <div className="profile">
-        <img src={require('../images/link.jpg')} />
+        <img src={imagePath} />
         <h1>{MarkdownData.title}</h1>
         <div
           className="content"
