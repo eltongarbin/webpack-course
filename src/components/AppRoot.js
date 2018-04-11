@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-const MarkdownData = require('../../data/post.md');
-const imagePath = require('../images/link.jpg');
+import { BrowserRouter as Router } from 'react-router-dom';
+import './nav.css';
+
+import Routes from './Routes';
 
 class Counter extends Component {
   constructor(props) {
@@ -9,14 +11,9 @@ class Counter extends Component {
 
   render() {
     return (
-      <div className="profile">
-        <img src={imagePath} />
-        <h1>{MarkdownData.title}</h1>
-        <div
-          className="content"
-          dangerouslySetInnerHTML={{ __html: MarkdownData.__content }}
-        />
-      </div>
+      <Router>
+        <Routes />
+      </Router>
     );
   }
 }
