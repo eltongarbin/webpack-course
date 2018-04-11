@@ -1,10 +1,12 @@
 const path = require('path');
 const webpack = require('webpack');
-const HTMLWebpackPlugin = require('html-webpack-plugin');
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+// const HTMLWebpackPlugin = require('html-webpack-plugin');
 // const BundleAnalyzerPlugin = require('webpack-bundle-analyzer')
 //   .BundleAnalyzerPlugin;
 
 module.exports = {
+  name: 'client',
   entry: {
     vendor: ['react', 'react-dom'],
     main: [
@@ -37,20 +39,39 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' }
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: { minimize: true, sourceMap: false }
+            },
+            {
+              loader: 'postcss-loader',
+              options: { sourceMap: false }
+            }
+          ]
+        })
       },
       {
         test: /\.less$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
-          { loader: 'less-loader' }
-        ]
+        use: ExtractTextPlugin.extract({
+          fallback: 'style-loader',
+          use: [
+            {
+              loader: 'css-loader',
+              options: { minimize: true, sourceMap: false }
+            },
+            {
+              loader: 'postcss-loader',
+              options: { sourceMap: false }
+            },
+            {
+              loader: 'less-loader',
+              options: { sourceMap: false }
+            }
+          ]
+        })
       },
       {
         test: /\.jpg$/,
@@ -92,6 +113,7 @@ module.exports = {
     ]
   },
   plugins: [
+    new ExtractTextPlugin('[name].css'),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development'),
@@ -99,11 +121,12 @@ module.exports = {
       }
     }),
     new webpack.HotModuleReplacementPlugin(),
-    new HTMLWebpackPlugin({
-      template: './src/index.ejs',
-      inject: true,
-      title: "Link's Journal"
-    })
+    new webpack.NamedModulesPlugin()
+    // new HTMLWebpackPlugin({
+    //   template: './src/index.ejs',
+    //   inject: true,
+    //   title: "Link's Journal"
+    // })
     // new BundleAnalyzerPlugin({
     //   generateStatsFile: true
     // })

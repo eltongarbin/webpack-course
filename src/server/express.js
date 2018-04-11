@@ -1,7 +1,12 @@
 import express from 'express';
 import path from 'path';
-import React from 'react';
-import { renderToString } from 'react-dom/server';
+import webpack from 'webpack';
+import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
+
+import configDevClient from '../../config/webpack.dev-client';
+import configDevServer from '../../config/webpack.dev-server';
+import configProdClient from '../../config/webpack.prod-client';
+import configProdServer from '../../config/webpack.prod-server';
 
 const server = express();
 const isProd = process.env.NODE_ENV === 'production';
@@ -9,45 +14,33 @@ const isDev = !isProd;
 const expressStaticGzip = require('express-static-gzip');
 
 if (isDev) {
-  const webpack = require('webpack');
-  const config = require('../../config/webpack.dev.js');
-  const compiler = webpack(config);
+  const compiler = webpack([configDevClient, configDevServer]);
+  const clientCompiler = compiler.compilers[0];
+  const serverCompiler = compiler.compilers[1];
+
   require('webpack-mild-compile')(compiler);
 
   const webpackDevMiddleware = require('webpack-dev-middleware')(
     compiler,
-    config.devServer
+    configDevClient.devServer
   );
   const webpackHotMiddleware = require('webpack-hot-middleware')(
-    compiler,
-    config.devServer
+    clientCompiler,
+    configDevClient.devServer
   );
 
   server.use(webpackDevMiddleware);
   server.use(webpackHotMiddleware);
+  server.use(webpackHotServerMiddleware(compiler));
 } else {
-  const AppRoot = require('../components/AppRoot').default;
-  server.use(
-    expressStaticGzip('dist', {
-      enableBrotli: true
-    })
-  );
-  server.use('*', (req, res) => {
-    res.send(`
-      <html>
-        <head>
-          <link href="/main.css" rel="stylesheet" />
-          <title>Hello Title</title>
-        </head>
-        <body>
-          <div id="react-root">
-            ${renderToString(<AppRoot />)}
-          </div>
-          <script src="vendor-bundle.js"></script>
-          <script src="main-bundle.js"></script>
-        </body>
-      </html>
-    `);
+  webpack([configProdClient, configProdServer]).run((err, stats) => {
+    const render = require('../../build/prod-server-bundle.js').default;
+    server.use(
+      expressStaticGzip('dist', {
+        enableBrotli: true
+      })
+    );
+    server.use(render());
   });
 }
 
