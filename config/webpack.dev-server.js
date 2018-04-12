@@ -1,7 +1,5 @@
 const path = require('path');
 const webpack = require('webpack');
-// const ExtractTextPlugin = require('extract-text-webpack-plugin');
-
 const externals = require('./node-externals');
 
 module.exports = {
@@ -25,20 +23,12 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' }
-        ]
-      },
-      {
-        test: /\.less$/,
-        use: [
-          { loader: 'style-loader' },
-          { loader: 'css-loader' },
-          { loader: 'postcss-loader' },
-          { loader: 'less-loader' }
-        ]
+        use: {
+          loader: 'css-loader',
+          options: {
+            minimize: true
+          }
+        }
       },
       {
         test: /\.jpg$/,
@@ -52,10 +42,6 @@ module.exports = {
           }
         ]
       },
-      // {
-      //   test: /\.ejs$/,
-      //   use: [{ loader: 'ejs-loader' }]
-      // },
       {
         test: /\.md$/,
         use: [{ loader: 'markdown-with-front-matter-loader' }]
@@ -66,12 +52,10 @@ module.exports = {
     new webpack.optimize.LimitChunkCountPlugin({
       maxChunks: 1
     }),
-    // new ExtractTextPlugin('[name].css'),
     new webpack.DefinePlugin({
       'process.env': {
         NODE_ENV: JSON.stringify('development')
       }
-    }),
-    new webpack.NamedModulesPlugin()
+    })
   ]
 };

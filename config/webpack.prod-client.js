@@ -1,21 +1,22 @@
 const path = require('path');
 const webpack = require('webpack');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
 const HTMLWebpackPlugin = require('html-webpack-plugin');
 const OptimizeCssAssetsPlugin = require('optimize-css-assets-webpack-plugin');
 const UglifyJSPlugin = require('uglifyjs-webpack-plugin');
 const CompressionPlugin = require('compression-webpack-plugin');
 const BrotliPlugin = require('brotli-webpack-plugin');
+const MiniCSSExtractPlugin = require('mini-css-extract-plugin');
 
 module.exports = {
   name: 'client',
   entry: {
-    vendor: ['react', 'lodash'],
+    vendor: ['react', 'react-dom'],
     main: ['./src/main.js']
   },
   mode: 'production',
   output: {
     filename: '[name]-bundle.js',
+    chunkFilename: '[name].js',
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/'
   },
@@ -35,39 +36,7 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: { minimize: true, sourceMap: false }
-            },
-            {
-              loader: 'postcss-loader',
-              options: { sourceMap: false }
-            }
-          ]
-        })
-      },
-      {
-        test: /\.less$/,
-        use: ExtractTextPlugin.extract({
-          fallback: 'style-loader',
-          use: [
-            {
-              loader: 'css-loader',
-              options: { minimize: true, sourceMap: false }
-            },
-            {
-              loader: 'postcss-loader',
-              options: { sourceMap: false }
-            },
-            {
-              loader: 'less-loader',
-              options: { sourceMap: false }
-            }
-          ]
-        })
+        use: [MiniCSSExtractPlugin.loader, 'css-loader']
       },
       {
         test: /\.jpg$/,
@@ -80,10 +49,6 @@ module.exports = {
           }
         ]
       },
-      // {
-      //   test: /\.ejs$/,
-      //   use: [{ loader: 'ejs-loader' }]
-      // },
       {
         test: /\.md$/,
         use: [{ loader: 'markdown-with-front-matter-loader' }]
@@ -91,7 +56,7 @@ module.exports = {
     ]
   },
   plugins: [
-    new ExtractTextPlugin('[name].css'),
+    new MiniCSSExtractPlugin(),
     new OptimizeCssAssetsPlugin({
       assetNameRegExp: /\.css$/g,
       cssProcessor: require('cssnano'),
@@ -104,12 +69,6 @@ module.exports = {
         WEBPACK: true
       }
     }),
-    // new webpack.NamedModulesPlugin(),
-    // new HTMLWebpackPlugin({
-    //   template: './src/index.ejs',
-    //   title: "Link's Journal"
-    // }),
-    new webpack.NamedModulesPlugin(),
     new UglifyJSPlugin(),
     new CompressionPlugin({
       algorithm: 'gzip'

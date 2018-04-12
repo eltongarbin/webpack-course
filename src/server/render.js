@@ -4,12 +4,18 @@ import { StaticRouter } from 'react-router';
 
 import Routes from '../components/Routes';
 
-export default () => (req, res) => {
+import { flushChunkNames } from 'react-universal-component/server';
+import flushChunks from 'webpack-flush-chunks';
+
+export default ({ clientStats }) => (req, res) => {
+  const { js, styles, cssHash } = flushChunks(clientStats, {
+    chunkNames: flushChunkNames()
+  });
+
   res.send(`
     <html>
       <head>
-        <link href="/main.css" rel="stylesheet" />
-        <title>Hello Title</title>
+        ${styles}
       </head>
       <body>
         <div id="react-root">${renderToString(
@@ -17,8 +23,7 @@ export default () => (req, res) => {
             <Routes />
           </StaticRouter>
         )}</div>
-        <script src="vendor-bundle.js"></script>
-        <script src="main-bundle.js"></script>
+        ${js}
       </body>
     </html>
   `);
