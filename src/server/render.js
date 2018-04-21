@@ -8,11 +8,13 @@ import { flushChunkNames } from 'react-universal-component/server';
 import flushChunks from 'webpack-flush-chunks';
 
 export default ({ clientStats }) => (req, res) => {
+  const site = req.hostname.split('.')[0];
+  const names = flushChunkNames().concat([`css/${site}-theme-css`]);
   const { js, styles, cssHash } = flushChunks(clientStats, {
-    chunkNames: flushChunkNames()
+    chunkNames: names
   });
 
-  const context = { site: req.hostname.split('.')[0] };
+  const context = { site };
 
   res.send(`
     <html>
