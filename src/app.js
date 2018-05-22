@@ -4,8 +4,10 @@ import { AppContainer } from 'react-hot-loader';
 import { Provider } from 'react-redux';
 
 import AppRoot from './components/AppRoot';
-import store from './store';
+import configureStore from './store';
 import { actionTest } from './actions';
+
+const store = configureStore({});
 
 function render(Component) {
   ReactDOM.hydrate(

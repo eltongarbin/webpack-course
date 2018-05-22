@@ -4432,7 +4432,7 @@ js-tokens@^3.0.0, js-tokens@^3.0.2:
   version "3.0.2"
   resolved "https://registry.yarnpkg.com/js-tokens/-/js-tokens-3.0.2.tgz#9866df395102130e38f7f996bceb65443209c25b"
 
-js-yaml@^3.5.2:
+js-yaml@^3.10.0, js-yaml@^3.5.2:
   version "3.11.0"
   resolved "https://registry.yarnpkg.com/js-yaml/-/js-yaml-3.11.0.tgz#597c1a8bd57152f26d622ce4117851a51f5ebaef"
   dependencies:
@@ -4851,6 +4851,10 @@ markdown-with-front-matter-loader@^0.1.0:
 marked@^0.3.3:
   version "0.3.19"
   resolved "https://registry.yarnpkg.com/marked/-/marked-0.3.19.tgz#5d47f709c4c9fc3c216b6d46127280f40b39d790"
+
+marked@^0.4.0:
+  version "0.4.0"
+  resolved "https://registry.yarnpkg.com/marked/-/marked-0.4.0.tgz#9ad2c2a7a1791f10a852e0112f77b571dce10c66"
 
 math-expression-evaluator@^1.2.14:
   version "1.2.17"
@@ -8036,6 +8040,13 @@ yaml-front-matter@^3.2.3:
   dependencies:
     commander "1.0.0"
     js-yaml "^3.5.2"
+
+yaml-front-matter@^4.0.0:
+  version "4.0.0"
+  resolved "https://registry.yarnpkg.com/yaml-front-matter/-/yaml-front-matter-4.0.0.tgz#11c378c54eac3061a82cbaf693a69b4e4c44f484"
+  dependencies:
+    commander "1.0.0"
+    js-yaml "^3.10.0"
 
 yargs-parser@^10.0.0:
   version "10.0.0"

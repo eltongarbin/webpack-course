@@ -17,20 +17,17 @@ class Article extends Component {
   }
 
   render() {
-    require(`../css/${this.props.site}/theme.css`);
-    const siteConfig = require(`../../data/${this.props.site}/siteConfig.js`);
-
     try {
-      // const MarkdownData = require(`../../data/${this.props.site}/${
-      //   this.props.match.params.slug
-      // }.md`);
-      // const posterStyle = {
-      //   backgroundImage: `url(${MarkdownData.posterImage})`
-      // };
+      import(`../css/${this.props.site}/theme.css`);
+      const siteConfig = require(`../../data/${this.props.site}/siteConfig.js`);
+      const billboardStyle = {
+        backgroundImage: `url(${this.props.posterImage})`
+      };
 
       return (
         <div>
           <div className="Article">
+            <div className="billboard" style={billboardStyle} />
             <h1>{this.props.title}</h1>
             <div
               className="content"
@@ -46,5 +43,5 @@ class Article extends Component {
 }
 
 export default connect((state) => ({
-  __content: state.content
+  ...state.content
 }))(Article);

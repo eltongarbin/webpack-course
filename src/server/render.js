@@ -6,16 +6,20 @@ import flushChunks from 'webpack-flush-chunks';
 import { Provider } from 'react-redux';
 
 import Routes from '../components/Routes';
-import store from './../store';
+import configureStore from './../store';
+import { fetchArticle } from './../actions';
 
 export default ({ clientStats }) => (req, res) => {
   const site = req.hostname.split('.')[0];
+  const slug = req.url.split('/').reverse()[0];
   const context = { site };
-
-  const { js, styles, cssHash } = flushChunks(clientStats, {
-    chunkNames: flushChunkNames().concat([`css/${site}-theme-css`])
+  const names = flushChunkNames().concat([`css/${site}-theme-css`]);
+  const { js, styles } = flushChunks(clientStats, {
+    chunkNames: names
   });
+  const store = configureStore();
 
+  store.dispatch(fetchArticle(site, slug));
   res.send(`
     <html>
       <head>

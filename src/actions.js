@@ -4,6 +4,13 @@ export const fetchArticle = (site, slug) => (dispatch) => {
   if (!site || !slug) return;
   fetch(`http://${site}.local:8080/api/articles/${slug}`)
     .catch((err) => fetch(`http://${site}:8080/api/articles/${slug}`))
+    .then((res) => {
+      if (!res.ok) {
+        throw Error(res.statusText);
+      }
+
+      return res;
+    })
     .then((res) => res.json())
     .then((data) => dispatch(fetchSuccess(data)))
     .catch((err) => dispatch(fetchFailure(err)));

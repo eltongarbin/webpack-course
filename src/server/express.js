@@ -2,6 +2,9 @@ import express from 'express';
 import path from 'path';
 import webpack from 'webpack';
 import webpackHotServerMiddleware from 'webpack-hot-server-middleware';
+import marked from 'marked';
+import { loadFront } from 'yaml-front-matter';
+import fs from 'fs';
 
 const server = express();
 const expressStaticGzip = require('express-static-gzip');
@@ -29,7 +32,28 @@ const done = () => {
 };
 
 server.get('/api/articles/:slug', (req, res) => {
-  res.json(req.params.slug);
+  try {
+    const site = req.hostname.split('.')[0] || 'localhost';
+    const { slug } = req.params;
+
+    if (!slug) {
+      throw new Error('No slug provided');
+    }
+
+    const file = path.resolve(__dirname, `../../data/${site}/${slug}.md`);
+    fs.readFile(file, 'utf-8', (err, data) => {
+      if (err) {
+        res.status(404).send(err);
+        return;
+      }
+
+      const obj = loadFront(data);
+      obj.__content = marked(obj.__content);
+      res.json(obj);
+    });
+  } catch (err) {
+    res.status(404).send(err);
+  }
 });
 
 if (isDev) {
