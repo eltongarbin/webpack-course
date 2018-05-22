@@ -1,5 +1,4 @@
 import React from 'react';
-
 import '../css/About.css';
 
 export default (props) => {
@@ -9,7 +8,7 @@ export default (props) => {
 
   return (
     <div>
-      <div className="profile">
+      <div className="About">
         <img src={imagePath} />
         <h1>{MarkdownData.title}</h1>
         <div
