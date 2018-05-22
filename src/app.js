@@ -1,17 +1,24 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { AppContainer } from 'react-hot-loader';
+import { Provider } from 'react-redux';
 
 import AppRoot from './components/AppRoot';
+import store from './store';
+import { actionTest } from './actions';
 
 function render(Component) {
   ReactDOM.hydrate(
-    <AppContainer>
-      <Component />
-    </AppContainer>,
+    <Provider store={store}>
+      <AppContainer>
+        <Component />
+      </AppContainer>
+    </Provider>,
     document.getElementById('react-root')
   );
 }
+
+store.dispatch(actionTest('New text'));
 
 render(AppRoot);
 
