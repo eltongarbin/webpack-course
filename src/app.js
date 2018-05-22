@@ -18,8 +18,6 @@ function render(Component) {
   );
 }
 
-store.dispatch(actionTest('New text'));
-
 render(AppRoot);
 
 if (module.hot) {

@@ -28,6 +28,10 @@ const done = () => {
     });
 };
 
+server.get('/api/articles/:slug', (req, res) => {
+  res.json(req.params.slug);
+});
+
 if (isDev) {
   const compiler = webpack([configDevClient, configDevServer]);
   const clientCompiler = compiler.compilers[0];

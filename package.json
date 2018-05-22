@@ -13,6 +13,7 @@
   "license": "ISC",
   "dependencies": {
     "babel-plugin-universal-import": "^2.0.0",
+    "cross-fetch": "^2.2.0",
     "dotenv": "^5.0.1",
     "express": "^4.16.3",
     "express-static-gzip": "^0.3.2",
@@ -23,7 +24,8 @@
     "react-router": "^4.2.0",
     "react-router-dom": "^4.2.2",
     "react-universal-component": "^2.8.4",
-    "redux": "^4.0.0"
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.2.0"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",

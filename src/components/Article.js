@@ -1,38 +1,50 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { connect } from 'react-redux';
 
-import NotFound from './NotFound';
 import '../css/About.css';
+import NotFound from './NotFound';
+import { fetchArticle } from './../actions';
 
-const Article = (props) => {
-  require(`../css/${props.site}/theme.css`);
-  const siteConfig = require(`../../data/${props.site}/siteConfig.js`);
-
-  try {
-    // const MarkdownData = require(`../../data/${props.site}/${
-    //   props.match.params.slug
-    // }.md`);
-    // const posterStyle = {
-    //   backgroundImage: `url(${MarkdownData.posterImage})`
-    // };
-
-    return (
-      <div>
-        <div className="Article">
-          <h1>{props.title}</h1>
-          <div
-            className="content"
-            dangerouslySetInnerHTML={{ __html: props.__content }}
-          />
-        </div>
-      </div>
-    );
-  } catch (error) {
-    return <NotFound />;
+class Article extends Component {
+  constructor(props) {
+    super(props);
   }
-};
+
+  componentDidMount() {
+    this.props.dispatch(
+      fetchArticle(this.props.site, this.props.match.params.slug)
+    );
+  }
+
+  render() {
+    require(`../css/${this.props.site}/theme.css`);
+    const siteConfig = require(`../../data/${this.props.site}/siteConfig.js`);
+
+    try {
+      // const MarkdownData = require(`../../data/${this.props.site}/${
+      //   this.props.match.params.slug
+      // }.md`);
+      // const posterStyle = {
+      //   backgroundImage: `url(${MarkdownData.posterImage})`
+      // };
+
+      return (
+        <div>
+          <div className="Article">
+            <h1>{this.props.title}</h1>
+            <div
+              className="content"
+              dangerouslySetInnerHTML={{ __html: this.props.__content }}
+            />
+          </div>
+        </div>
+      );
+    } catch (error) {
+      return <NotFound />;
+    }
+  }
+}
 
 export default connect((state) => ({
-  title: state.text,
-  __content: state.text
+  __content: state.content
 }))(Article);
