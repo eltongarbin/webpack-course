@@ -1,19 +1,17 @@
 import fetch from 'cross-fetch';
 
-export const fetchArticle = (site, slug) => (dispatch) => {
+export const fetchArticle = (site, slug) => async (dispatch) => {
   if (!site || !slug) return;
-  fetch(`http://${site}.local:8080/api/articles/${slug}`)
-    .catch((err) => fetch(`http://${site}:8080/api/articles/${slug}`))
-    .then((res) => {
-      if (!res.ok) {
-        throw Error(res.statusText);
-      }
 
-      return res;
-    })
-    .then((res) => res.json())
-    .then((data) => dispatch(fetchSuccess(data)))
-    .catch((err) => dispatch(fetchFailure(err)));
+  try {
+    const response = await fetch(
+      `http://${site}:8080/api/articles/${slug}`
+    );
+    const items = await response.json();
+    dispatch(fetchSuccess(items));
+  } catch (error) {
+    dispatch(fetchError(err));
+  }
 };
 
 export const FETCH_SUCCESS = 'FETCH_SUCCESS';
